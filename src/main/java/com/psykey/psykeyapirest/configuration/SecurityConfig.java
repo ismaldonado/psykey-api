@@ -2,6 +2,7 @@ package com.psykey.psykeyapirest.configuration;
 
 import com.psykey.psykeyapirest.configuration.filter.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,11 +26,13 @@ import java.util.List;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+	private final String websiteURL;
 
-    @Autowired
-    SecurityConfig(final UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+	@Autowired
+	SecurityConfig(final UserDetailsService userDetailsService, @Value("${website.url}") final String websiteURL) {
+		this.userDetailsService = userDetailsService;
+		this.websiteURL = websiteURL;
+	}
 
     @Override
     protected void configure(final AuthenticationManagerBuilder managerBuilder) throws Exception {
@@ -63,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200")); // TODO: Cambiar cuando tengamos dominio
+        configuration.setAllowedOrigins(List.of(this.websiteURL));
         configuration.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

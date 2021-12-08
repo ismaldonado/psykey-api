@@ -1,7 +1,8 @@
 package com.psykey.psykeyapirest.exception;
 
 public class JwtException extends RuntimeException {
-    private final String message;
+	private static final long serialVersionUID = 8989267611599905386L;
+	private final String message;
 
     public JwtException(final String message) {
         super(message);
