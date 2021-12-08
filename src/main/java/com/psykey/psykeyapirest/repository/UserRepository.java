@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findUserByUserTypeAndTherapyType(final String userType, final String therapyType);
 
-    @Query(value = "SELECT * FROM User user"
+    @Query(value = "SELECT * FROM user user"
             + " LEFT JOIN user Employee ON user.employee = Employee.id "
             + " WHERE (:#{#searchRequest.dni} IS NULL OR user.dni = :#{#searchRequest.dni})"
             + " AND (:#{#searchRequest.name} IS NULL OR user.name LIKE CONCAT('%', :#{#searchRequest.name}, '%')) "
